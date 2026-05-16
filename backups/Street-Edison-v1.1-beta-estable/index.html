@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Street Edison</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+</head>
+
+<body>
+
+<h1>Street Edison</h1>
+
+
+<div class="tabs">
+
+<button onclick="mostrarPestana('aprendizaje')">
+🧭 Aprendizaje
+</button>
+
+<button onclick="mostrarPestana('et')">
+⚡ ET
+</button>
+
+<button onclick="mostrarPestana('referencias')">
+📍 Referencias
+</button>
+
+</div>
+
+
+
+<div id="aprendizaje"
+class="contenido">
+
+<h2>Modo aprendizaje</h2>
+
+<div id="ubicacion">
+
+Esperando ubicación...
+
+</div>
+
+<br>
+
+<button onclick="obtenerUbicacion()">
+
+Obtener ubicación
+
+</button>
+
+<br><br>
+
+<div id="mapa"></div>
+
+</div>
+
+
+
+
+<div id="et"
+class="contenido oculto">
+
+<h2>Guardar ET / Cuadro</h2>
+
+<input
+type="text"
+id="nombreET"
+placeholder="ET-14">
+
+<br><br>
+
+<button
+onclick="guardarET()">
+
+Guardar ET
+
+</button>
+
+<hr>
+
+<h3>ET guardadas</h3>
+
+<div id="listaET"></div>
+
+</div>
+
+
+
+
+<div id="referencias"
+class="contenido oculto">
+
+<h2>Referencias</h2>
+
+<p>Sin referencias todavía</p>
+
+</div>
+
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script src="js/gps.js"></script>
+
+<script src="js/guardar.js"></script>
+
+
+<script>
+
+function mostrarPestana(id){
+
+let pantallas=
+document.querySelectorAll(
+".contenido"
+);
+
+pantallas.forEach(
+p=>p.classList.add(
+"oculto"
+)
+);
+
+document
+.getElementById(id)
+.classList.remove(
+"oculto"
+);
+
+}
+
+</script>
+
+</body>
+</html>
