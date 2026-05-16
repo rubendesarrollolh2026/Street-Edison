@@ -1,0 +1,14 @@
+Street Edison
+
+V1.1
+Fecha: 16/05/2026
+
+Funciona:
+
+✓ GPS móvil
+✓ Coordenadas
+✓ Nombre calle actual
+
+Notas:
+- Funciona desde Pixel conectado a Raspberry
+- Requiere permitir origen inseguro en Chrome local

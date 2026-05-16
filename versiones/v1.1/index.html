@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Street Edison</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<h1>Street Edison</h1>
+
+<div class="tabs">
+
+<button onclick="mostrarPestana('aprendizaje')">
+🧭 Aprendizaje
+</button>
+
+<button onclick="mostrarPestana('et')">
+⚡ ET
+</button>
+
+<button onclick="mostrarPestana('referencias')">
+📍 Referencias
+</button>
+
+</div>
+
+
+<div id="aprendizaje" class="contenido">
+
+<h2>Modo aprendizaje</h2>
+
+<div id="ubicacion">
+Esperando ubicación...
+</div>
+
+<br>
+
+<button onclick="obtenerUbicacion()">
+Obtener ubicación
+</button>
+
+</div>
+
+
+
+<div id="et" class="contenido oculto">
+
+<h2>Guardar ET / Cuadro</h2>
+
+<input
+type="text"
+id="nombreET"
+placeholder="ET-14">
+
+<br><br>
+
+<button>
+Guardar ET
+</button>
+
+</div>
+
+
+
+<div id="referencias" class="contenido oculto">
+
+<h2>Referencias</h2>
+
+<p>Sin puntos guardados</p>
+
+</div>
+
+<script src="js/gps.js"></script>
+
+<script>
+
+function mostrarPestana(id){
+
+let pantallas=
+document.querySelectorAll(".contenido");
+
+pantallas.forEach(
+p=>p.classList.add("oculto")
+);
+
+document
+.getElementById(id)
+.classList.remove("oculto");
+
+}
+
+</script>
+
+</body>
+
+</html>
