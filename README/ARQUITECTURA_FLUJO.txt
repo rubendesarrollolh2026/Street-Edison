@@ -1,0 +1,65 @@
+STREET EDISON V2
+
+ARQUITECTURA
+
+TRONCO
+
+gps.js
+→ ubicación
+→ lectura calles
+→ voz
+
+mapa.js
+→ Leaflet
+→ seguimiento mapa
+
+datos/
+→ historial
+→ rutas
+
+
+RAMAS
+
+seguimiento.js
+→ botón centrar 🎯
+→ seguimiento automático
+
+vehiculo.js
+→ coche 🚗
+→ orientación brújula
+
+rutas.js
+→ grabar rutas
+
+ui.js
+→ botones
+→ pestañas
+
+audio.js
+→ sonidos
+
+
+FLUJO DE TRABAJO
+
+Nueva función:
+
+¿Puede hacerse en archivo nuevo?
+
+SI
+↓
+crear módulo nuevo
+
+NO
+↓
+modificar solo lo mínimo
+
+Siempre:
+
+cambio
+↓
+prueba
+↓
+backup
+↓
+GitHub
+
