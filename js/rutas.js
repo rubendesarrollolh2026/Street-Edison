@@ -4,12 +4,81 @@ let puntosRuta=[];
 
 let lineaRuta=null;
 
+let ultimaLatRuta=null;
+let ultimaLonRuta=null;
+
+
+function distanciaMetros(
+lat1,
+lon1,
+lat2,
+lon2
+){
+
+let R=6371000;
+
+let dLat=
+(lat2-lat1)*
+Math.PI/180;
+
+let dLon=
+(lon2-lon1)*
+Math.PI/180;
+
+let a=
+
+Math.sin(
+dLat/2
+)**2+
+
+Math.cos(
+lat1*Math.PI/180
+)*
+
+Math.cos(
+lat2*Math.PI/180
+)*
+
+Math.sin(
+dLon/2
+)**2;
+
+
+let c=
+
+2*Math.atan2(
+Math.sqrt(a),
+Math.sqrt(1-a)
+);
+
+return R*c;
+
+}
+
+
 
 function iniciarRuta(){
 
 grabandoRuta=true;
 
 puntosRuta=[];
+
+ultimaLatRuta=null;
+ultimaLonRuta=null;
+
+
+if(
+lineaRuta
+){
+
+mapa.removeLayer(
+lineaRuta
+);
+
+lineaRuta=null;
+
+}
+
 
 document.getElementById(
 "estadoRuta"
@@ -51,8 +120,10 @@ puntosRuta
 
 );
 
+
 let idRuta=
 Date.now();
+
 
 enviarSheets({
 
@@ -92,24 +163,22 @@ fecha:p.fecha
 
 );
 
+
 document.getElementById(
 "estadoRuta"
 ).innerHTML=
 
 "■ Guardada: "+nombre;
 
-cargarRutas();
 
-console.log(
-"Ruta guardada:",
-nombre
-);
+cargarRutas();
 
 }
 
 
 
 setInterval(()=>{
+
 
 if(
 
@@ -120,6 +189,40 @@ window.latActual==null
 ){
 
 return;
+
+}
+
+
+if(
+
+ultimaLatRuta!=null
+
+){
+
+let distancia=
+
+distanciaMetros(
+
+ultimaLatRuta,
+ultimaLonRuta,
+
+window.latActual,
+window.lonActual
+
+);
+
+
+if(
+distancia>500
+){
+
+console.log(
+"Salto GPS ignorado"
+);
+
+return;
+
+}
 
 }
 
@@ -136,6 +239,13 @@ fecha:
 Date.now()
 
 });
+
+
+ultimaLatRuta=
+window.latActual;
+
+ultimaLonRuta=
+window.lonActual;
 
 
 document.getElementById(
@@ -173,19 +283,6 @@ return;
 lista.innerHTML="";
 
 
-if(
-localStorage.length===0
-){
-
-lista.innerHTML=
-
-"Sin rutas";
-
-return;
-
-}
-
-
 for(
 
 let i=0;
@@ -200,6 +297,14 @@ let nombre=
 
 localStorage.key(i);
 
+
+try{
+
+JSON.parse(
+localStorage.getItem(
+nombre
+)
+);
 
 lista.innerHTML+=
 
@@ -221,6 +326,11 @@ cursor:pointer;
 </div>
 
 `;
+
+}
+catch(e){
+
+}
 
 }
 
@@ -308,5 +418,4 @@ cargarRutas();
 },500);
 
 }
-
 );
