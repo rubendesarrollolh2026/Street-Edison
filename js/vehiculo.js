@@ -1,31 +1,7 @@
-let flechaVehiculo=null;
-
-let ultimaLatVehiculo=null;
-let ultimaLonVehiculo=null;
+let puntoVehiculo=null;
 
 
-function calcularAngulo(
-lat1,
-lon1,
-lat2,
-lon2
-){
-
-let y=
-lon2-lon1;
-
-let x=
-lat2-lat1;
-
-return Math.atan2(
-y,
-x
-)*(180/Math.PI);
-
-}
-
-
-function crearFlecha(
+function crearPunto(
 lat,
 lon
 ){
@@ -35,89 +11,83 @@ typeof mapa==="undefined"
 ){
 
 return;
+
 }
 
-const iconoFlecha=
+
+const iconoPunto=
+
 L.divIcon({
 
-html:
+html:`
 
-"<div id='flechaVehiculo' style='font-size:40px;color:red;filter:drop-shadow(2px 2px 3px black);'>➤</div>",
+<div style="
+
+width:18px;
+height:18px;
+
+background:red;
+
+border-radius:50%;
+
+border:2px solid white;
+
+box-shadow:
+4px 4px 8px rgba(0,0,0,0.6);
+
+">
+
+</div>
+
+`,
 
 className:"",
 
-iconSize:[40,40],
-iconAnchor:[20,20]
+iconSize:[18,18],
+
+iconAnchor:[9,9]
 
 });
 
 
 if(
-!flechaVehiculo
+!puntoVehiculo
 ){
 
-flechaVehiculo=
+puntoVehiculo=
+
 L.marker(
+
 [lat,lon],
+
 {
-icon:iconoFlecha,
+
+icon:iconoPunto,
+
 zIndexOffset:1000
+
 }
+
 ).addTo(
 mapa
 );
 
-}else{
+}
+else{
 
-flechaVehiculo.setLatLng(
+puntoVehiculo.setLatLng(
+
 [
 lat,
 lon
 ]
-);
-
-}
-
-
-if(
-ultimaLatVehiculo!=null
-){
-
-let angulo=
-
-calcularAngulo(
-
-ultimaLatVehiculo,
-ultimaLonVehiculo,
-
-lat,
-lon
 
 );
 
-let flechaDOM=
-
-document.getElementById(
-"flechaVehiculo"
-);
-
-if(
-flechaDOM
-){
-
-flechaDOM.style.transform=
-
-`rotate(${angulo}deg)`;
-
 }
 
 }
 
-
-ultimaLatVehiculo=lat;
-ultimaLonVehiculo=lon;
-
-}
 
 
 setInterval(()=>{
@@ -134,7 +104,122 @@ return;
 
 }
 
-crearFlecha(
+
+crearPunto(
+
+window.latActual,
+window.lonActual
+
+);
+
+},1000);let puntoVehiculo=null;
+
+
+function crearPunto(
+lat,
+lon
+){
+
+if(
+typeof mapa==="undefined"
+){
+
+return;
+
+}
+
+
+const iconoPunto=
+
+L.divIcon({
+
+html:`
+
+<div style="
+
+width:18px;
+height:18px;
+
+background:red;
+
+border-radius:50%;
+
+border:2px solid white;
+
+box-shadow:
+4px 4px 8px rgba(0,0,0,0.6);
+
+">
+
+</div>
+
+`,
+
+className:"",
+
+iconSize:[18,18],
+
+iconAnchor:[9,9]
+
+});
+
+
+if(
+!puntoVehiculo
+){
+
+puntoVehiculo=
+
+L.marker(
+
+[lat,lon],
+
+{
+
+icon:iconoPunto,
+
+zIndexOffset:1000
+
+}
+
+).addTo(
+mapa
+);
+
+}
+else{
+
+puntoVehiculo.setLatLng(
+
+[
+lat,
+lon
+]
+
+);
+
+}
+
+}
+
+
+
+setInterval(()=>{
+
+if(
+
+window.latActual==null ||
+
+typeof mapa==="undefined"
+
+){
+
+return;
+
+}
+
+
+crearPunto(
 
 window.latActual,
 window.lonActual
