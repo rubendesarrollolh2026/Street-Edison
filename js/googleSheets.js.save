@@ -161,7 +161,7 @@ error
 
 
 /* cargar automático */
-
+/*
 document.addEventListener(
 
 "DOMContentLoaded",
@@ -177,4 +177,4 @@ cargarETdesdeSheets();
 }
 
 );
-
+* /

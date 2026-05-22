@@ -36,3 +36,25 @@ position:relative;
 z-index:99999;
 
 }
+
+.panel-lateral{
+
+z-index:100;
+
+}
+
+
+.btn-lateral{
+
+z-index:100;
+
+}
+
+
+#et{
+
+z-index:99999;
+
+touch-action:pan-y;
+
+}

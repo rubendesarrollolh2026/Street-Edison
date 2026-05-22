@@ -7,6 +7,8 @@ right:15px;
 
 bottom:15px;
 
+height:auto;
+
 background:rgba(255,255,255,0.92);
 
 padding:15px;
@@ -17,7 +19,12 @@ box-shadow:0 4px 10px rgba(0,0,0,0.2);
 
 z-index:9999;
 
+overflow-y:auto;
+
+box-sizing:border-box;
+
 }
+
 
 #et button{
 
@@ -33,6 +40,7 @@ cursor:pointer;
 
 }
 
+
 #et input{
 
 width:100%;
@@ -45,10 +53,26 @@ box-sizing:border-box;
 
 }
 
+
 .contraido{
 
 transform:translateY(82%);
 
 transition:0.4s;
+
+}
+
+
+#listaET{
+
+display:none !important;
+
+height:0;
+
+margin:0;
+
+padding:0;
+
+overflow:hidden;
 
 }
