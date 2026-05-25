@@ -43,7 +43,6 @@ Math.sin(
 dLon/2
 )**2;
 
-
 let c=
 
 2*Math.atan2(
@@ -110,6 +109,12 @@ nombre=
 }
 
 
+let idRuta=
+Date.now();
+
+
+/* guardar local primero */
+
 localStorage.setItem(
 
 nombre,
@@ -121,13 +126,11 @@ puntosRuta
 );
 
 
-let idRuta=
-Date.now();
-
+/* enviar UNA sola vez */
 
 enviarSheets({
 
-tipo:"ruta",
+tipo:"rutaCompleta",
 
 idRuta:idRuta,
 
@@ -135,33 +138,9 @@ nombre:nombre,
 
 fecha:Date.now(),
 
-totalPuntos:
-puntosRuta.length
+puntos:puntosRuta
 
 });
-
-
-puntosRuta.forEach(
-
-p=>{
-
-enviarSheets({
-
-tipo:"puntoRuta",
-
-idRuta:idRuta,
-
-lat:p.lat,
-
-lon:p.lon,
-
-fecha:p.fecha
-
-});
-
-}
-
-);
 
 
 document.getElementById(
@@ -275,10 +254,9 @@ document.getElementById(
 if(
 !lista
 ){
-
 return;
-
 }
+
 
 lista.innerHTML="";
 
@@ -298,30 +276,82 @@ let nombre=
 localStorage.key(i);
 
 
+if(
+nombre==="ETs"
+){
+continue;
+}
+
+
 try{
 
+let datos=
+
 JSON.parse(
+
 localStorage.getItem(
 nombre
 )
+
 );
+
+
+if(
+!Array.isArray(
+datos
+)){
+continue;
+}
+
+
+if(
+datos.length===0
+){
+continue;
+}
+
+
+if(
+!("lat" in datos[0])
+){
+continue;
+}
+
 
 lista.innerHTML+=
 
 `
 
 <div
-onclick="verRuta('${nombre}')"
 
 style="
 padding:8px;
 margin-bottom:8px;
 background:#f2f2f2;
 border-radius:10px;
-cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
 ">
 
+<span
+onclick="verRuta('${nombre}')"
+style="cursor:pointer;">
+
 🗺 ${nombre}
+
+</span>
+
+<span
+onclick="borrarRutaLocal('${nombre}')"
+style="
+cursor:pointer;
+font-size:18px;
+">
+
+🗑
+
+</span>
 
 </div>
 
@@ -329,6 +359,11 @@ cursor:pointer;
 
 }
 catch(e){
+
+console.log(
+"Ruta ignorada:",
+nombre
+);
 
 }
 
@@ -400,6 +435,18 @@ mapa
 mapa.fitBounds(
 lineaRuta.getBounds()
 );
+
+}
+
+
+
+function borrarRutaLocal(nombre){
+
+localStorage.removeItem(
+nombre
+);
+
+cargarRutas();
 
 }
 

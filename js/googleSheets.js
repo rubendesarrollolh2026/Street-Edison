@@ -41,23 +41,26 @@ error
 
 
 
-/* RECUPERAR ET DESDE SHEETS */
+/* ===========================
+   ET
+=========================== */
 
-function cargarETdesdeSheets(){
+async function cargarETdesdeSheets(){
 
-fetch(
+try{
+
+let respuesta=
+
+await fetch(
 
 URL_SHEETS+
 "?tipo=et"
 
-)
+);
 
-.then(
-r=>r.json()
-)
+let datos=
 
-.then(
-datos=>{
+await respuesta.json();
 
 console.log(
 "ET cargadas:",
@@ -68,9 +71,7 @@ if(
 !datos ||
 datos.length===0
 ){
-
 return;
-
 }
 
 
@@ -114,7 +115,8 @@ localStorage.setItem(
 "ETs",
 
 JSON.stringify(
-listaET)
+listaET
+)
 
 );
 
@@ -137,18 +139,96 @@ mostrarETenMapa();
 }
 
 }
-
-)
-
-.catch(
-
-error=>{
+catch(error){
 
 console.log(
-
 "Error ET:",
-
 error
+);
+
+}
+
+}
+
+
+
+/* ===========================
+   RUTAS
+=========================== */
+
+async function cargarRutasDesdeSheets(){
+
+try{
+
+let respuesta=
+
+await fetch(
+
+URL_SHEETS+
+"?tipo=ruta"
+
+);
+
+let datos=
+
+await respuesta.json();
+
+console.log(
+"Rutas cargadas:",
+datos
+);
+
+
+if(
+!datos ||
+datos.length===0
+){
+return;
+}
+
+
+datos.forEach(
+
+ruta=>{
+
+let puntosLimpios=
+
+ruta.puntos.map(
+
+p=>({
+
+lat:
+parseFloat(
+p.lat
+),
+
+lon:
+parseFloat(
+p.lon
+),
+
+fecha:
+p.fecha
+
+})
+
+);
+
+
+console.log(
+"Guardando:",
+ruta.nombre,
+puntosLimpios.length
+);
+
+
+localStorage.setItem(
+
+ruta.nombre,
+
+JSON.stringify(
+puntosLimpios
+)
 
 );
 
@@ -156,25 +236,47 @@ error
 
 );
 
+
+if(
+typeof cargarRutas==="function"
+){
+
+cargarRutas();
+
+}
+
+}
+catch(error){
+
+console.log(
+"Error rutas:",
+error
+);
+
+}
+
 }
 
 
 
-/* cargar automático */
+/* ===========================
+   ARRANQUE
+=========================== */
 
 document.addEventListener(
 
 "DOMContentLoaded",
 
-()=>{
+async()=>{
 
-setTimeout(()=>{
+await cargarETdesdeSheets();
 
-cargarETdesdeSheets();
+await cargarRutasDesdeSheets();
 
-},2000);
+console.log(
+"Street Edison sincronizado"
+);
 
 }
 
 );
-
