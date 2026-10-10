@@ -1,282 +1,112 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Street Edison - Cuadros de Alumbrado</title>
 
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-<title>Street Edison</title>
-
-<link rel="stylesheet"
-href="css/base.css">
-
-<link rel="stylesheet"
-href="css/mapa.css">
-
-<link rel="stylesheet"
-href="css/botones.css">
-
-<link rel="stylesheet"
-href="css/paneles.css">
-
-<link rel="stylesheet"
-href="css/paneles/aprendizaje.css">
-
-<link rel="stylesheet"
-href="css/paneles/et.css">
-
-<link rel="stylesheet"
-href="css/paneles/referencias.css">
-
-<link rel="stylesheet"
-href="css/paneles/ruta.css">
-
-<link rel="stylesheet"
-href="css/intro.css">
-
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
+  <!-- Estilos de la aplicación -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<h1>Street Edison</h1>
-
-
-<div class="panel-lateral">
-
-<button class="btn-lateral"
-onclick="mostrarPestana('aprendizaje')">
-
-🧭
-
-</button>
-
-<button class="btn-lateral"
-onclick="mostrarPestana('et')">
-
-⚡
-
-</button>
-
-<button class="btn-lateral"
-onclick="mostrarPestana('referencias')">
-
-📍
-
-</button>
-
-<button class="btn-lateral"
-onclick="alternarSeguimiento()">
-
-🎯
-
-</button>
-
-<button class="btn-lateral"
-onclick="mostrarPestana('ruta')">
-
-▶
-
-</button>
-
-</div>
-
-
-<div id="aprendizaje"
-class="contenido">
-
-<div class="tirador"
-onclick="alternarPanel('aprendizaje')">
-
-━━━━━━
-
-</div>
-
-<h2>Modo aprendizaje</h2>
-
-<div id="ubicacion">
-
-Esperando ubicación...
-
-</div>
-
-<br>
-
-<button
-onclick="obtenerUbicacion()">
-
-Obtener ubicación
-
-</button>
-
-</div>
-
-
-
-
-<div id="et"
-class="contenido oculto">
-
-<div class="tirador"
-onclick="alternarPanel('et')">
-
-━━━━━━
-
-</div>
-
-<h2>Guardar ET / Cuadro</h2>
-
-<input
-type="text"
-id="nombreET"
-placeholder="ET-14">
-
-<br><br>
-
-<button
-onclick="guardarET()">
-
-Guardar ET
-
-</button>
-
-<div
-id="listaET"
-
-style="display:none;"
->
-
-</div>
-
-</div>
-
-
-
-
-<div id="referencias"
-class="contenido oculto">
-
-<div class="tirador"
-onclick="alternarPanel('referencias')">
-
-━━━━━━
-
-</div>
-
-<h2>
-
-Referencias
-
-</h2>
-
-<p>
-
-Sin referencias todavía
-
-</p>
-
-</div>
-
-
-
-
-<div id="ruta"
-class="contenido oculto">
-
-<div class="tirador"
-onclick="alternarPanel('ruta')">
-
-━━━━━━
-
-</div>
-
-<h2>
-
-Rutas
-
-</h2>
-
-<div id="estadoRuta">
-
-Ruta detenida
-
-</div>
-
-<br>
-
-<button
-onclick="iniciarRuta()">
-
-▶ Iniciar ruta
-
-</button>
-
-<br><br>
-
-<button
-onclick="detenerRuta()">
-
-■ Detener ruta
-
-</button>
-
-<br><br>
-
-<button
-onclick="cargarRutasDesdeSheets()">
-
-☁ Cargar ruta Sheets
-
-</button>
-
-
-
-<hr>
-
-<h3>
-
-Rutas guardadas
-
-</h3>
-
-<div id="listaRutas">
-
-Sin rutas
-
-</div>
-
-</div>
-
-
-
-
-<div id="mapa"></div>
-
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-<script src="js/gps.js"></script>
-
-<script src="js/guardar.js"></script>
-
-<script src="js/ui.js"></script>
-
-<script src="js/paneles/deslizable.js"></script>
-
-<script src="js/seguimiento.js"></script>
-
-<script src="js/vehiculo.js"></script>
-
-<script src="js/googleSheets.js"></script>
-
-<script src="js/rutas.js"></script>
-
+  <!-- Cabecera / Barra superior -->
+  <header class="header-app">
+    <div class="header-title">
+      <span class="icon-rayo">⚡</span>
+      <h1>Street Edison</h1>
+    </div>
+    <div class="header-actions">
+      <div id="estado-conexion" class="estado-badge cargando">
+        <span class="dot"></span>
+        <span id="texto-estado">Cargando...</span>
+      </div>
+      <button id="btn-menu-preferencias" class="btn-menu-preferencias" type="button" onclick="alternarMenuPreferencias()" title="Menú">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- Menú de preferencias -->
+  <aside id="menu-preferencias" class="menu-preferencias oculto" aria-label="Preferencias">
+    <div class="menu-preferencias-cabecera">
+      <h2>Preferencias</h2>
+      <button type="button" class="btn-cerrar-menu" onclick="cerrarMenuPreferencias()" title="Cerrar">✖</button>
+    </div>
+
+    <div class="grupo-preferencia">
+      <span class="etiqueta-preferencia">Apariencia</span>
+      <div class="control-segmentado" role="group" aria-label="Modo de color">
+        <button id="btn-tema-claro" type="button" onclick="seleccionarTema('claro')">Claro</button>
+        <button id="btn-tema-oscuro" type="button" onclick="seleccionarTema('oscuro')">Oscuro</button>
+      </div>
+    </div>
+
+    <div class="grupo-preferencia">
+      <span class="etiqueta-preferencia">Texto</span>
+      <div class="control-segmentado control-texto" role="group" aria-label="Tamaño de texto">
+        <button id="btn-texto-normal" type="button" onclick="seleccionarTamanoTexto('normal')">Normal</button>
+        <button id="btn-texto-grande" type="button" onclick="seleccionarTamanoTexto('grande')">Grande</button>
+        <button id="btn-texto-muy-grande" type="button" onclick="seleccionarTamanoTexto('muy-grande')">Muy grande</button>
+      </div>
+    </div>
+
+    <div class="creditos-app">
+      <strong>Street Edison</strong>
+      <span>Versión V3.1</span>
+      <span>Actualizado: 10/10/2026</span>
+    </div>
+  </aside>
+
+  <!-- Panel de Buscador (Oculto por defecto) -->
+  <div id="panel-buscador" class="panel-buscador oculto">
+    <div class="buscador-input-wrapper">
+      <span class="icon-lupa-input">🔍</span>
+      <input type="search" id="input-buscador" placeholder="Buscar cuadro, nº o calle..." aria-label="Buscar cuadro, número o calle" autocomplete="off" oninput="ejecutarBusqueda()">
+      <button type="button" class="btn-cerrar-buscador" onclick="cerrarBuscador()" title="Cerrar">✖</button>
+    </div>
+    <div id="resultados-buscador" class="resultados-buscador"></div>
+  </div>
+
+  <!-- Contenedor del Mapa -->
+  <div id="mapa"></div>
+
+  <!-- Barra inferior de ubicación actual -->
+  <div id="barra-calle-actual" class="barra-calle-actual">
+    <span class="barra-calle-icono">📍</span>
+    <span id="texto-calle-actual">Localizando calle…</span>
+  </div>
+
+  <!-- Botones flotantes (Buscador y GPS) -->
+  <div class="contenedor-flotantes">
+    <button id="btn-buscar" class="btn-flotante btn-flotante-buscar" onclick="alternarBuscador()" title="Buscar Cuadro">
+      🔍
+    </button>
+    <button id="btn-voz" class="btn-flotante btn-flotante-voz" onclick="alternarVoz()" title="Activar avisos de voz">
+      🔇
+    </button>
+    <button id="btn-orientacion" class="btn-flotante btn-flotante-orientacion" onclick="alternarOrientacionMapa()" title="Norte arriba">
+      🧭
+    </button>
+    <button id="btn-mi-ubicacion" class="btn-flotante btn-flotante-gps" onclick="centrarEnMiUbicacion()" title="Mi Ubicación">
+      🎯
+    </button>
+  </div>
+
+  <!-- Aviso de notificaciones / Estado -->
+  <div id="notificacion" class="notificacion oculto"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Scripts V3 -->
+  <script src="js/googleSheets.js"></script>
+  <script src="js/mapa.js"></script>
+  <script src="js/app.js"></script>
 
 </body>
-
 </html>
