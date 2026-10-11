@@ -1,0 +1,121 @@
+STREET EDISON V2
+
+REGLAS DEL PROYECTO
+
+1. No tocar GPS si funciona.
+
+2. No tocar MAPA si funciona.
+
+3. Función nueva = archivo nuevo.
+
+4. Cambios visuales:
+separar CSS por módulos.
+
+5. Cambios delicados:
+pasar archivos completos.
+
+6. Antes de cambios grandes:
+hacer copia de seguridad.
+
+7. Probar después de cada cambio.
+
+8. Explicar comandos de consola.
+
+9. No asumir rutas ni archivos;
+trabajar con estructura real.
+
+10. GitHub y backups
+son fuente estable.
+
+11. Si algo funciona 7 veces:
+
+NO reinventarlo en el intento 8.
+
+DIRECTRICES NUEVAS APRENDIDAS
+
+12.
+Cambios delicados:
+
+- indicar archivo exacto
+- indicar texto exacto a buscar
+- indicar bloque completo
+- indicar reemplazo completo
+
+No usar:
+
+"más abajo"
+"creo que es este"
+"el segundo div"
+
+13.
+Antes de buscar:
+
+confirmar que el texto existe.
+
+No asumir estructura.
+
+14.
+Trabajar con estructura real:
+
+comprobar archivos y rutas antes de mover,
+renombrar o borrar.
+
+15.
+Separar CSS:
+
+mover también clases funcionales.
+
+Ejemplo:
+
+.contenido
+.oculto
+
+No solo apariencia visual.
+
+16.
+Nueva función:
+
+diagnóstico
+↓
+cambio mínimo
+↓
+probar
+↓
+seguir
+
+No hacer varios cambios grandes juntos.
+
+17.
+Si algo deja de funcionar:
+
+comprobar:
+
+HTML
+↓
+CSS
+↓
+JS
+
+No asumir que el error está donde parece.
+
+18.
+Cuando se usen DevTools:
+
+explicar exactamente:
+
+- pestaña a abrir
+- texto a escribir
+- resultado esperado
+
+19.
+Los archivos históricos:
+
+mantenerlos separados del proyecto vivo.
+
+Proyecto activo:
+
+Street-Edison-v2
+
+Copias:
+
+backups-v2
