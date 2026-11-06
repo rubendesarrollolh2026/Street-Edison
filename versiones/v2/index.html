@@ -10,7 +10,7 @@ content="width=device-width, initial-scale=1.0">
 <title>Street Edison</title>
 
 <link rel="stylesheet"
-href="css/style.css">
+href="css/base.css">
 
 <link rel="stylesheet"
 href="css/mapa.css">
@@ -145,13 +145,15 @@ Guardar ET
 
 </button>
 
-<div
-id="listaET"
+<hr>
 
-style="display:none;"
->
+<h3>
 
-</div>
+ET guardadas
+
+</h3>
+
+<div id="listaET"></div>
 
 </div>
 
@@ -228,13 +230,11 @@ onclick="detenerRuta()">
 <br><br>
 
 <button
-onclick="cargarRutasDesdeSheets()">
+onclick="cargarRutaDesdeSheets()">
 
 ☁ Cargar ruta Sheets
 
 </button>
-
-
 
 <hr>
 

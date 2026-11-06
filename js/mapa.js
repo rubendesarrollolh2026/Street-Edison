@@ -5,6 +5,9 @@ let ultimaPosicionCalle = null;
 let ultimaConsultaCalle = 0;
 let ultimaCalleUsuario = "";
 let observadorGPS = null;
+let seguimientoGPSActivo = false;
+let eventosSeguimientoGPSConectados = false;
+let cambioVistaGPSProgramatico = false;
 let avisosVozActivos = leerPreferenciaVoz();
 let ultimaCalleAnunciada = "";
 let modoDireccionMarcha = false;
@@ -200,7 +203,7 @@ function mostrarETenMapa(listaET) {
   });
 
   // Ajustar la vista del mapa para encuadrar todos los cuadros
-  if (marcadoresET.length > 0) {
+  if (marcadoresET.length > 0 && !seguimientoGPSActivo) {
     const grupo = L.featureGroup(marcadoresET);
     mapa.fitBounds(grupo.getBounds().pad(0.1));
   }
@@ -473,14 +476,45 @@ function procesarPosicionUsuario(posicion, centrarMapa) {
   actualizarRumboDesdePosicion(lat, lon, posicion);
 
   if (centrarMapa) {
-    mapa.setView([lat, lon], 16);
+    ejecutarCambioVistaGPS(() => mapa.setView([lat, lon], 16, { animate: false }));
+    seguimientoGPSActivo = true;
+  } else if (seguimientoGPSActivo) {
+    ejecutarCambioVistaGPS(() => mapa.panTo([lat, lon], { animate: false }));
   }
 
   actualizarCalleActual(lat, lon);
 }
 
+function desactivarSeguimientoGPS() {
+  seguimientoGPSActivo = false;
+}
+
+function desactivarSeguimientoPorInteraccion() {
+  if (!cambioVistaGPSProgramatico) {
+    desactivarSeguimientoGPS();
+  }
+}
+
+function ejecutarCambioVistaGPS(cambioVista) {
+  cambioVistaGPSProgramatico = true;
+  try {
+    cambioVista();
+  } finally {
+    cambioVistaGPSProgramatico = false;
+  }
+}
+
+function conectarEventosSeguimientoGPS() {
+  if (eventosSeguimientoGPSConectados || !mapa) return;
+
+  eventosSeguimientoGPSConectados = true;
+  mapa.on("zoomstart movestart boxzoomstart", desactivarSeguimientoPorInteraccion);
+}
+
 function iniciarObservacionGPS(opcionesGPS) {
   if (observadorGPS !== null || !navigator.geolocation) return;
+
+  conectarEventosSeguimientoGPS();
 
   observadorGPS = navigator.geolocation.watchPosition(
     (posicion) => procesarPosicionUsuario(posicion, false),
@@ -656,9 +690,12 @@ function seleccionarCuadroBuscado(index) {
   // 1. Cerrar buscador
   cerrarBuscador();
 
-  // 2. Centrar mapa y aplicar zoom adecuado para identificar la ubicación
+  // 2. La selección del usuario termina el seguimiento antes de mover el mapa.
+  desactivarSeguimientoGPS();
+
+  // 3. Centrar mapa y aplicar zoom adecuado para identificar la ubicación
   mapa.setView([et.latitud, et.longitud], 17);
 
-  // 3. Abrir la ficha/popup del marcador
+  // 4. Abrir la ficha/popup del marcador
   marcador.openPopup();
 }

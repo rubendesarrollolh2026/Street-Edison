@@ -1,7 +1,31 @@
-let puntoVehiculo=null;
+let flechaVehiculo=null;
+
+let ultimaLatVehiculo=null;
+let ultimaLonVehiculo=null;
 
 
-function crearPunto(
+function calcularAngulo(
+lat1,
+lon1,
+lat2,
+lon2
+){
+
+let y=
+lon2-lon1;
+
+let x=
+lat2-lat1;
+
+return Math.atan2(
+y,
+x
+)*(180/Math.PI);
+
+}
+
+
+function crearFlecha(
 lat,
 lon
 ){
@@ -11,83 +35,89 @@ typeof mapa==="undefined"
 ){
 
 return;
-
 }
 
-
-const iconoPunto=
-
+const iconoFlecha=
 L.divIcon({
 
-html:`
+html:
 
-<div style="
-
-width:18px;
-height:18px;
-
-background:red;
-
-border-radius:50%;
-
-border:2px solid white;
-
-box-shadow:
-4px 4px 8px rgba(0,0,0,0.6);
-
-">
-
-</div>
-
-`,
+"<div id='flechaVehiculo' style='font-size:40px;color:red;filter:drop-shadow(2px 2px 3px black);'>➤</div>",
 
 className:"",
 
-iconSize:[18,18],
-
-iconAnchor:[9,9]
+iconSize:[40,40],
+iconAnchor:[20,20]
 
 });
 
 
 if(
-!puntoVehiculo
+!flechaVehiculo
 ){
 
-puntoVehiculo=
-
+flechaVehiculo=
 L.marker(
-
 [lat,lon],
-
 {
-
-icon:iconoPunto,
-
+icon:iconoFlecha,
 zIndexOffset:1000
-
 }
-
 ).addTo(
 mapa
 );
 
-}
-else{
+}else{
 
-puntoVehiculo.setLatLng(
-
+flechaVehiculo.setLatLng(
 [
 lat,
 lon
 ]
-
 );
 
 }
 
+
+if(
+ultimaLatVehiculo!=null
+){
+
+let angulo=
+
+calcularAngulo(
+
+ultimaLatVehiculo,
+ultimaLonVehiculo,
+
+lat,
+lon
+
+);
+
+let flechaDOM=
+
+document.getElementById(
+"flechaVehiculo"
+);
+
+if(
+flechaDOM
+){
+
+flechaDOM.style.transform=
+
+`rotate(${angulo}deg)`;
+
 }
 
+}
+
+
+ultimaLatVehiculo=lat;
+ultimaLonVehiculo=lon;
+
+}
 
 
 setInterval(()=>{
@@ -104,8 +134,7 @@ return;
 
 }
 
-
-crearPunto(
+crearFlecha(
 
 window.latActual,
 window.lonActual

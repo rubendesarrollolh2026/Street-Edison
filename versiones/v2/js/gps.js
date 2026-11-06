@@ -327,23 +327,6 @@ function hablar(
 texto
 ){
 
-if(
-
-window.Android &&
-
-typeof Android.hablar==="function"
-
-){
-
-Android.hablar(
-texto
-);
-
-return;
-
-}
-
-
 let voz=
 
 new SpeechSynthesisUtterance(
@@ -358,6 +341,7 @@ voz
 );
 
 }
+
 
 
 function mostrarError(

@@ -88,6 +88,8 @@ lista)
 );
 
 
+/* ENVIAR A GOOGLE SHEETS */
+
 console.log(
 "ET guardada:",
 datos
@@ -120,6 +122,7 @@ mostrarETs();
 mostrarETenMapa();
 
 }
+
 
 
 
@@ -190,9 +193,7 @@ mapa
 `
 
 <b>
-
 ⚡ ${et.nombre}
-
 </b>
 
 <br><br>
@@ -203,27 +204,10 @@ ${et.calle}
 
 ${et.hora}
 
-<br><br>
-
-<button
-onclick="editarET(${lista.indexOf(et)})"
->
-
-✏
-
-</button>
-
-<button
-onclick="borrarET(${lista.indexOf(et)})"
->
-
-🗑
-
-</button>
-
 `
 
 );
+
 
 marcadorET.bindTooltip(
 
@@ -318,10 +302,73 @@ mostrarETenMapa();
 
 
 
-/* ocultamos lista temporalmente */
 
 function mostrarETs(){
 
-return;
+let lista=
+
+JSON.parse(
+
+localStorage.getItem(
+"ETs"
+)
+
+)||[];
+
+
+let html="";
+
+
+lista.forEach(
+
+(et,indice)=>{
+
+html+=`
+
+<div>
+
+⚡ <b>${et.nombre}</b>
+
+<br>
+
+${et.calle}
+
+<br>
+
+${et.hora}
+
+<br><br>
+
+<button onclick="editarET(${indice})">
+
+Editar
+
+</button>
+
+<button onclick="borrarET(${indice})">
+
+Borrar
+
+</button>
+
+<hr>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById(
+"listaET"
+).innerHTML=
+html;
 
 }
+
+
+
+mostrarETs();
+
+mostrarETenMapa();

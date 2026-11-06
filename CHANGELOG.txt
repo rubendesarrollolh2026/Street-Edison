@@ -1,3 +1,15 @@
+Street Edison V2.2
+
+Fecha: 06/11/2026
+
+Cambios:
+
+- Seguimiento GPS con detección centralizada de interacciones manuales del mapa.
+- La selección de un ET desactiva el seguimiento sin detener el observador GPS.
+- La V2 histórica se conserva en versiones/v2/.
+
+---
+
 Street Edison
 
 V1.1
