@@ -1,0 +1,37 @@
+Street Edison V3.1 Beta
+Fecha: 07/11/2026
+
+Cambios sobre V2.2:
+
+- Rotación heading-up del mapa con Tomicki 0.3.0.
+- Seguimiento GPS con rumbo validado y retorno progresivo al norte.
+- El marcador GPS permanece aproximadamente al 64 % de la altura del mapa.
+- Los movimientos manuales y la selección de ET desactivan el seguimiento,
+  manteniendo activo el observador GPS.
+
+Street Edison V2.2
+
+Fecha: 06/11/2026
+
+Cambios:
+
+- Seguimiento GPS con detección centralizada de interacciones manuales del mapa.
+- La selección de un ET desactiva el seguimiento sin detener el observador GPS.
+- La V2 histórica se conserva en versiones/v2/.
+
+---
+
+Street Edison
+
+V1.1
+Fecha: 16/05/2026
+
+Funciona:
+
+✓ GPS móvil
+✓ Coordenadas
+✓ Nombre calle actual
+
+Notas:
+- Funciona desde Pixel conectado a Raspberry
+- Requiere permitir origen inseguro en Chrome local

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Street Edison V3.1 Beta - Cuadros de Alumbrado</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <!-- Estilos de la aplicación -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Cabecera / Barra superior -->
+  <header class="header-app">
+    <div class="header-title">
+      <span class="icon-rayo">⚡</span>
+      <h1>Street Edison</h1>
+    </div>
+    <div class="header-actions">
+      <div id="estado-conexion" class="estado-badge cargando">
+        <span class="dot"></span>
+        <span id="texto-estado">Cargando...</span>
+      </div>
+      <button id="btn-menu-preferencias" class="btn-menu-preferencias" type="button" onclick="alternarMenuPreferencias()" title="Menú">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- Menú de preferencias -->
+  <aside id="menu-preferencias" class="menu-preferencias oculto" aria-label="Preferencias">
+    <div class="menu-preferencias-cabecera">
+      <h2>Preferencias</h2>
+      <button type="button" class="btn-cerrar-menu" onclick="cerrarMenuPreferencias()" title="Cerrar">✖</button>
+    </div>
+
+    <div class="grupo-preferencia">
+      <span class="etiqueta-preferencia">Apariencia</span>
+      <div class="control-segmentado" role="group" aria-label="Modo de color">
+        <button id="btn-tema-claro" type="button" onclick="seleccionarTema('claro')">Claro</button>
+        <button id="btn-tema-oscuro" type="button" onclick="seleccionarTema('oscuro')">Oscuro</button>
+      </div>
+    </div>
+
+    <div class="grupo-preferencia">
+      <span class="etiqueta-preferencia">Texto</span>
+      <div class="control-segmentado control-texto" role="group" aria-label="Tamaño de texto">
+        <button id="btn-texto-normal" type="button" onclick="seleccionarTamanoTexto('normal')">Normal</button>
+        <button id="btn-texto-grande" type="button" onclick="seleccionarTamanoTexto('grande')">Grande</button>
+        <button id="btn-texto-muy-grande" type="button" onclick="seleccionarTamanoTexto('muy-grande')">Muy grande</button>
+      </div>
+    </div>
+
+    <div class="creditos-app">
+      <strong>Street Edison</strong>
+      <span>Versión V3.1 Beta</span>
+      <span>Basada en V2.2 · 07/11/2026</span>
+    </div>
+  </aside>
+
+  <!-- Panel de Buscador (Oculto por defecto) -->
+  <div id="panel-buscador" class="panel-buscador oculto">
+    <div class="buscador-input-wrapper">
+      <span class="icon-lupa-input">🔍</span>
+      <input type="search" id="input-buscador" placeholder="Buscar cuadro, nº o calle..." aria-label="Buscar cuadro, número o calle" autocomplete="off" oninput="ejecutarBusqueda()">
+      <button type="button" class="btn-cerrar-buscador" onclick="cerrarBuscador()" title="Cerrar">✖</button>
+    </div>
+    <div id="resultados-buscador" class="resultados-buscador"></div>
+  </div>
+
+  <!-- Contenedor del Mapa -->
+  <div id="mapa"></div>
+
+  <!-- Barra inferior de ubicación actual -->
+  <div id="barra-calle-actual" class="barra-calle-actual">
+    <span class="barra-calle-icono">📍</span>
+    <span id="texto-calle-actual">Localizando calle…</span>
+  </div>
+
+  <!-- Botones flotantes (Buscador y GPS) -->
+  <div class="contenedor-flotantes">
+    <button id="btn-buscar" class="btn-flotante btn-flotante-buscar" onclick="alternarBuscador()" title="Buscar Cuadro">
+      🔍
+    </button>
+    <button id="btn-voz" class="btn-flotante btn-flotante-voz" onclick="alternarVoz()" title="Activar avisos de voz">
+      🔇
+    </button>
+    <button id="btn-orientacion" class="btn-flotante btn-flotante-orientacion" onclick="alternarOrientacionMapa()" title="Norte arriba">
+      🧭
+    </button>
+    <button id="btn-mi-ubicacion" class="btn-flotante btn-flotante-gps" onclick="centrarEnMiUbicacion()" title="Mi Ubicación">
+      🎯
+    </button>
+  </div>
+
+  <!-- Aviso de notificaciones / Estado -->
+  <div id="notificacion" class="notificacion oculto"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Rotación del mapa: plugin Tomicki 0.3.0 (MIT), cargado después de Leaflet -->
+  <script src="https://unpkg.com/@tomickigrzegorz/leaflet-rotate@0.3.0/dist/leaflet-rotate.umd.min.js"></script>
+
+  <!-- Scripts V2.2 -->
+  <script src="js/googleSheets.js"></script>
+  <script src="js/mapa.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
